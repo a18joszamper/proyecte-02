@@ -1,13 +1,11 @@
 #!/bin/bash
 
 usage() {
-        echo "Usage:"
-	echo "${0} [-u <USERNAME>] [-f <FULLNAME>|<COMMENT>]" 1>&2; exit 1;
+        echo "Usage: ${0} [-u <USERNAME>] [-f <FULLNAME>|<COMMENT>]" 1>&2; exit 1;
 }
 
-
 while getopts :u:f o; do
-        case "${o}" in
+        case "$o" in
                 u)
                         USERNAME=${OPTARG}
                         ;;
@@ -15,14 +13,13 @@ while getopts :u:f o; do
                         FULLNAME=${OPTARG}
                         ;;
                 \?)
-
 			echo "ERROR: Invalid option -$OPTARG"
                         usage
-                        ;;
-                :)
-			echo "ERROR: Option -$OPTARG requires an argument"
-			usage
-                        ;;
+			exit 1 ;;
+		:)
+		        echo "ERROR: -$OPTARG requires an argument."
+		        exit 1
+  		        ;;
         esac
 done
 
@@ -32,7 +29,7 @@ PASSWORD=`openssl rand -base64 15`
 
 if [[ "${UID}" -eq 0 ]]
 then
-        if [ ! -z "$USERNAME" ]
+        if [ ! -z "$USERNAME" ] && [ $USERNAME != "root" ]
         then
                 if [ -z "$FULLNAME" ]
                 then
