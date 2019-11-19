@@ -6,7 +6,7 @@ usage() {
 }
 
 
-while getopts ':u:f' o; do
+while getopts :u:f o; do
         case "${o}" in
                 u)
                         USERNAME=${OPTARG}
@@ -14,14 +14,14 @@ while getopts ':u:f' o; do
                 f)
                         FULLNAME=${OPTARG}
                         ;;
-                :)
-			echo "ERROR: Option -$OPTARG requires an argument"
-			usage
-                        ;;
                 \?)
 
 			echo "ERROR: Invalid option -$OPTARG"
                         usage
+                        ;;
+                :)
+			echo "ERROR: Option -$OPTARG requires an argument"
+			usage
                         ;;
         esac
 done
@@ -52,4 +52,3 @@ then
 else
         echo 'No tienes los permisos necesarios.'
 fi
-
